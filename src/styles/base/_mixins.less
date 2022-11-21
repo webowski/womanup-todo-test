@@ -1,0 +1,58 @@
+.container(@type: normal) {
+	& when ((@type = normal)) {
+		max-width: var(--containerMax);
+	}
+	box-sizing: content-box;
+	padding-left: var(--sidePadding);
+	padding-right: var(--sidePadding);
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.flowMargin(@margin: 0px, @marginLast: @margin) {
+
+	&:first-child {
+		margin-top: @margin;
+	}
+
+	&:last-child {
+		margin-bottom: @marginLast;
+	}
+}
+
+.pseudoBlock(@width: auto, @height: @width) {
+	width: @width;
+	height: @height;
+	content: '';
+	display: block;
+	position: absolute;
+}
+
+.placeholder(@rules) {
+	&.placeholder {
+		@rules();
+	}
+	&:-ms-input-placeholder {
+		@rules();
+	}
+	&:-moz-placeholder {
+		@rules();
+	}
+	&::-moz-placeholder {
+		@rules();
+	}
+	&::-webkit-input-placeholder {
+		@rules();
+	}
+}
+
+.visuallyHidden {
+	width: 1px !important;
+	height: 1px !important;
+	padding: 0 !important;
+	border: 0 !important;
+	margin: -1px !important;
+	position: absolute !important;
+	overflow: hidden !important;
+	clip: rect(0 0 0 0);
+}

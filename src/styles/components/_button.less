@@ -1,0 +1,57 @@
+.Button {
+	width: auto;
+	max-width: 100%;
+	padding: 8px 10px;
+	display: inline-block;
+	border: 0 none;
+	appearance: none;
+	background: var(--inverse) none;
+	border-radius: 0px;
+	color: var(--major);
+	font-size: 1rem;
+	line-height: 1.125;
+	font-weight: 400;
+	letter-spacing: 0;
+	text-decoration: none;
+	text-align: center;
+	text-transform: none;
+	vertical-align: middle;
+	cursor: pointer;
+	white-space: nowrap;
+	transition:
+		background-color @duration-sm,
+		border-color @duration-sm,
+		color @duration-sm,
+		box-shadow @duration-sm,
+		transform @duration-sm;
+}
+
+.Button:hover {
+	background-color: var(--mutedLight);
+}
+
+.Button:active {
+	@media (min-width: @md) {
+		box-shadow: none !important;
+		transform: none;
+		transform: translateY(1px);
+	}
+}
+
+.Button:focus {
+	@media (min-width: @md) {
+		box-shadow:
+			0 0 0 1px rgba(0,0,0,.1),
+			0 1px 1px 0 rgba(0,0,0,.05),
+			0 0 0 4px rgba(0,0,0,.1);
+	}
+}
+
+.Button.-primary {
+	background-color: var(--brand);
+}
+
+.Button.-sm {
+	font-size: .875rem;
+	padding: 6px 10px;
+}

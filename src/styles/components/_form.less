@@ -1,0 +1,73 @@
+.FormInput {
+	width: auto;
+	height: auto;
+	padding: 7px 10px;
+	border: 1px solid var(--border);
+	display: block;
+	background-color: var(--bg);
+	background-repeat: no-repeat;
+	box-shadow: none;
+	border-radius: 0px;
+	transition:
+		background-color @duration-md linear,
+		border-color @duration-md linear,
+		color @duration-md linear;
+	resize: none;
+	color: var(--intense);
+	font-size: 1rem;
+	line-height: 1.125;
+	font-family: inherit;
+	font-weight: 400;
+
+	.placeholder({
+		color: var(--muted);
+	})
+}
+
+.FormInput[type=datetime-local] {
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+
+.FormInput[type=file] {
+	padding: .25rem;
+	flex: 1 1 100%;
+}
+
+.FormInput:focus,
+.FormInput:focus-within {
+	background-color: var(--bg);
+	color: var(--intense);
+	box-shadow:
+		0 0 0 1px rgba(0,0,0,.1),
+		0 1px 1px 0 rgba(0,0,0,.05),
+		0 0 0 4px rgba(0,0,0,.1);
+	outline: none;
+}
+
+.Form {
+	.flowMargin;
+	margin-top: 1.5rem;
+	margin-bottom: 1.5rem;
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	flex: 1;
+	flex-wrap: wrap;
+
+	@media (min-width: @md) {
+		flex-wrap: nowrap;
+	}
+}
+
+.Form__fields {
+	display: flex;
+	flex-wrap: wrap;
+	flex: 1 1 100%;
+	gap: 12px;
+}
+
+.Form.is-pending {
+	opacity: .55;
+	pointer-events: none;
+}

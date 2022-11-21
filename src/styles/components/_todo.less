@@ -1,0 +1,55 @@
+.TodoList {
+	display: flex;
+	gap: 1rem;
+	flex-direction: column;
+}
+
+.TodoItem {
+	min-height: 72px;
+	padding: .75rem;
+	border-radius: 3px;
+	background-color: rgba(0,0,100,.1);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+	transition: opacity var(--duration-sm);
+	flex-wrap: wrap;
+}
+
+.TodoItem__body {
+	flex: 1;
+	width: 100%;
+
+	@media (min-width: @md) {
+		width: auto
+	}
+}
+
+.TodoItem__time {
+	color: var(--minor);
+	font-size: .875rem;
+	white-space: nowrap;
+}
+
+.TodoItem__title {
+	margin-top: .25rem;
+	font-weight: 700;
+	font-size: 1rem;
+}
+
+.TodoItem__actions {
+	display: flex;
+	align-self: flex-end;
+	gap: .5rem;
+	flex-wrap: wrap;
+}
+
+.TodoItem.is-completed {
+	background-color: fade(@success, 30%);
+}
+
+.TodoItem.is-pending {
+	opacity: .55;
+	pointer-events: none;
+}
