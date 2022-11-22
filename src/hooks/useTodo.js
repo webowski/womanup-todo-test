@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { db, storage } from '@/backend/firebase'
 import {
 	doc,
@@ -6,6 +6,7 @@ import {
 	deleteDoc,
 	collection,
 	addDoc,
+	getDoc,
 	serverTimestamp,
 } from 'firebase/firestore'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
@@ -14,7 +15,7 @@ import { toTimestamp } from '@/helpers/time'
 export const useTodo = () => {
 	const [isTodoPending, setIsTodoPending] = useState(false)
 
-	const addTodo = useCallback(async (data, files) => {
+	const addTodo = async (data, files) => {
 		setIsTodoPending(true)
 		try {
 			const uploadedFiles = await uploadTodoFiles(files)
@@ -34,13 +35,20 @@ export const useTodo = () => {
 		} finally {
 			setIsTodoPending(false)
 		}
-		// eslint-disable-next-line
-	}, [])
+	}
 
-	const updateTodo = useCallback(async (id, data, files) => {
+	const updateTodo = async (id, data, files) => {
 		setIsTodoPending(true)
 		try {
 			const uploadedFiles = await uploadTodoFiles(files)
+			const docRef = doc(db, 'todos', id)
+
+			const todoSnap = await getDoc(docRef)
+			const existedTodoFiles = todoSnap.data().files
+
+			if (existedTodoFiles.length) {
+				uploadedFiles.push(...existedTodoFiles)
+			}
 
 			let dataToUpdate = {
 				title: data.title,
@@ -49,18 +57,15 @@ export const useTodo = () => {
 				files: uploadedFiles,
 			}
 
-			const docRef = doc(db, 'todos', id)
-
 			await updateDoc(docRef, dataToUpdate)
 		} catch (error) {
 			console.error(error)
 		} finally {
 			setIsTodoPending(false)
 		}
-		// eslint-disable-next-line
-	}, [])
+	}
 
-	const switchTodoCompletion = useCallback(async (id, value) => {
+	const switchTodoCompletion = async (id, value) => {
 		setIsTodoPending(true)
 		const docRef = doc(db, 'todos', id)
 		try {
@@ -72,9 +77,9 @@ export const useTodo = () => {
 		} finally {
 			setIsTodoPending(false)
 		}
-	}, [])
+	}
 
-	const deleteTodo = useCallback(async (id) => {
+	const deleteTodo = async (id) => {
 		setIsTodoPending(true)
 		const docRef = doc(db, 'todos', id)
 		try {
@@ -84,9 +89,9 @@ export const useTodo = () => {
 		} finally {
 			setIsTodoPending(false)
 		}
-	}, [])
+	}
 
-	const uploadTodoFiles = useCallback(async (filesToUpload) => {
+	const uploadTodoFiles = async (filesToUpload) => {
 		setIsTodoPending(true)
 		let uploadedFiles = []
 
@@ -109,7 +114,7 @@ export const useTodo = () => {
 		}
 
 		return uploadedFiles
-	}, [])
+	}
 
 	return {
 		isTodoPending,

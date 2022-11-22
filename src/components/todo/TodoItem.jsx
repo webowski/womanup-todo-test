@@ -66,10 +66,10 @@ const TodoItem = ({ data }) => {
 						{data.description && (
 							<div className='TodoItem__description'>{data.description}</div>
 						)}
-						{true && (
+						{data.files.length > 0 && (
 							<ul className='TodoItem__files'>
 								{data.files.map((file, index) => (
-									<li key={'todoFile' + file.index}>
+									<li key={'todoFile' + index}>
 										<a href={file.url} target='_blank' rel='noreferrer'>
 											{file.name}
 										</a>

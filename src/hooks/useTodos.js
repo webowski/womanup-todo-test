@@ -6,6 +6,7 @@ import { toInputTimeFormat } from '@/helpers/time'
 export const useTodos = () => {
 	const [todos, setTodos] = useState([])
 	const [isLoading, setIsLoading] = useState(true)
+	const [isFailed, setIsFailed] = useState(false)
 
 	useEffect(() => {
 		const unsubscribe = onSnapshot(
@@ -21,12 +22,17 @@ export const useTodos = () => {
 
 					return todoData
 				})
+
 				setTodos(todosRes)
 				setIsLoading(false)
+			},
+			(error) => {
+				console.error(error)
+				setIsFailed(true)
 			}
 		)
 		return () => unsubscribe()
 	}, [])
 
-	return { todos, isLoading }
+	return { todos, isLoading, isFailed }
 }

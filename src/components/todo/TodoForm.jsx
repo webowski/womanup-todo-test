@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 
 const emptyFormState = {
 	title: '',
@@ -16,12 +16,16 @@ const TodoForm = ({
 	const initialFormState = { ...emptyFormState, ...initialValues }
 	const [formData, setFormData] = useState(initialFormState)
 	const [filesToUpload, setFilesToUpload] = useState([])
+	const fileInput = useRef()
 
 	const handleSubmit = useCallback(
 		async (event) => {
 			event.preventDefault()
-			onSubmit(formData, filesToUpload)
-			if (action === 'add') setFormData(emptyFormState)
+			await onSubmit(formData, filesToUpload)
+			if (action === 'add') {
+				setFormData(emptyFormState)
+			}
+			fileInput.current.value = ''
 		},
 		// eslint-disable-next-line
 		[formData, filesToUpload]
@@ -72,6 +76,7 @@ const TodoForm = ({
 				/>
 
 				<input
+					ref={fileInput}
 					type='file'
 					name='files'
 					className='FormInput'
