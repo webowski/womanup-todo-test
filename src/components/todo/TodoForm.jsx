@@ -1,62 +1,30 @@
-import { useCallback, useEffect, useState } from 'react'
-import { storage } from '@/backend/firebase'
-import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
+import { useCallback, useState } from 'react'
 
 const emptyFormState = {
 	title: '',
 	description: '',
 	datetime: '',
-	files: [],
+	files: '',
 }
 
-const TodoForm = ({ action, onSubmit, initialValues = {} }) => {
+const TodoForm = ({
+	action,
+	onSubmit,
+	initialValues = {},
+	isPending = false,
+}) => {
 	const initialFormState = { ...emptyFormState, ...initialValues }
 	const [formData, setFormData] = useState(initialFormState)
-
 	const [filesToUpload, setFilesToUpload] = useState([])
-	const [filesList, setFilesList] = useState([])
-	const filesListRef = ref(storage, 'todo-files/')
 
 	const handleSubmit = useCallback(
 		async (event) => {
 			event.preventDefault()
-
-			if (filesToUpload?.length > 0) {
-				let fileRef = ref(storage, `todo-files/${filesToUpload[0].name}`)
-				await uploadBytes(fileRef, filesToUpload[0])
-					.then((snapshot) => {
-						getDownloadURL(snapshot.ref).then((url) => {
-							setFilesList((actual) => [
-								...actual,
-								{ url, name: filesToUpload[0].name },
-							])
-						})
-					})
-					.catch((error) => {
-						console.log(error)
-					})
-			}
-
-			onSubmit(formData)
-
+			onSubmit(formData, filesToUpload)
 			if (action === 'add') setFormData(emptyFormState)
 		},
 		// eslint-disable-next-line
 		[formData, filesToUpload]
-	)
-
-	useEffect(
-		() => {
-			listAll(filesListRef).then((response) => {
-				response.items.forEach((item) => {
-					getDownloadURL(item).then((url) => {
-						setFilesList((actual) => [...actual, { url, name: item.name }])
-					})
-				})
-			})
-		},
-		// eslint-disable-next-line
-		[]
 	)
 
 	const handleInputChange = useCallback((event) => {
@@ -71,7 +39,10 @@ const TodoForm = ({ action, onSubmit, initialValues = {} }) => {
 	}
 
 	return (
-		<form className='Form' onSubmit={handleSubmit}>
+		<form
+			className={`Form${isPending ? ' is-pending' : ''}`}
+			onSubmit={handleSubmit}
+		>
 			<div className='Form__fields'>
 				<input
 					type='text'
@@ -103,25 +74,17 @@ const TodoForm = ({ action, onSubmit, initialValues = {} }) => {
 				<input
 					type='file'
 					name='files'
-					multiple
 					className='FormInput'
 					onChange={handleInputFilesChange}
 				/>
-				{filesList.map((file) => (
-					<div key={file.url}>
-						<a href={file.url} target='_blank' rel='noreferrer'>
-							{file.name}
-						</a>
-					</div>
-				))}
 			</div>
 
 			{action === 'add' && (
-				<button className='Button -primary Form__submit'>Добавить</button>
+				<button className='Button -primary'>Добавить</button>
 			)}
 
 			{action === 'edit' && (
-				<button className='Button -sm -primary Form__submit'>Сохранить</button>
+				<button className='Button -sm -primary'>Сохранить</button>
 			)}
 		</form>
 	)

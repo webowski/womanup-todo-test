@@ -16,11 +16,17 @@ const TodoItem = ({ data }) => {
 	}, [])
 
 	const handleUpdateTodo = useCallback(
-		(formData) => {
-			updateTodo(data._id, formData)
-			setIsOnEdit(false)
+		async (formData, files) => {
+			try {
+				await updateTodo(data._id, formData, files)
+			} catch (error) {
+				console.error(error)
+			} finally {
+				setIsOnEdit(false)
+			}
 		},
-		[updateTodo, data]
+		// eslint-disable-next-line
+		[]
 	)
 
 	useEffect(() => {
@@ -57,7 +63,20 @@ const TodoItem = ({ data }) => {
 							)}
 						</div>
 						<h4 className='TodoItem__title'>{data.title}</h4>
-						<div className='TodoItem__description'>{data.description}</div>
+						{data.description && (
+							<div className='TodoItem__description'>{data.description}</div>
+						)}
+						{true && (
+							<ul className='TodoItem__files'>
+								{data.files.map((file, index) => (
+									<li key={'todoFile' + file.index}>
+										<a href={file.url} target='_blank' rel='noreferrer'>
+											{file.name}
+										</a>
+									</li>
+								))}
+							</ul>
+						)}
 					</div>
 
 					<div className='TodoItem__actions'>
