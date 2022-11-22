@@ -5,8 +5,9 @@
 }
 
 .TodoItem {
-	min-height: 72px;
+	min-height: 4.5rem;
 	padding: .75rem;
+	position: relative;
 	border-radius: 3px;
 	background-color: rgba(0,0,100,.1);
 	display: flex;
@@ -18,11 +19,12 @@
 }
 
 .TodoItem__body {
-	flex: 1;
+	flex: 1 1 100%;
 	width: 100%;
 
 	@media (min-width: @md) {
-		width: auto
+		width: auto;
+		flex-basis: auto;
 	}
 }
 
@@ -30,12 +32,32 @@
 	color: var(--minor);
 	font-size: .875rem;
 	white-space: nowrap;
+	display: flex;
+	align-items: center;
+}
+
+.TodoItem__badge {
+	padding: 1px 8px 2px;
+	background-color: fade(@danger, 60%);
+	font-size: .75rem;
+	line-height: 1;
+	font-weight: 400;
+	color: var(--inverse);
+	border-radius: 10px;
+	vertical-align: middle;
+	margin-left: .25rem;
 }
 
 .TodoItem__title {
-	margin-top: .25rem;
+	.flowMargin;
+	margin-top: .125rem;
+	margin-bottom: .5rem;
 	font-weight: 700;
 	font-size: 1rem;
+}
+
+.TodoItem__description {
+	color: var(--minor);
 }
 
 .TodoItem__actions {
@@ -53,3 +75,4 @@
 	opacity: .55;
 	pointer-events: none;
 }
+

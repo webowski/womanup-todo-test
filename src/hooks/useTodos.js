@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
 import { onSnapshot, collection, query, orderBy } from 'firebase/firestore'
 import { db } from '@/backend/firebase'
-import dayjs from 'dayjs'
-
-const timePattern = 'HH:mm DD.MM.YYYY' // input[datetime] 'd/m/Y H:i:s'
+import { toInputTimeFormat } from '@/helpers/time'
 
 export const useTodos = () => {
 	const [todos, setTodos] = useState([])
@@ -16,10 +14,9 @@ export const useTodos = () => {
 				const todosRes = snapshot.docs.map((doc) => {
 					let todoData = { _id: doc.id, ...doc.data() }
 
-					if (doc.data()?.timestamp) {
-						const timeSeconds = doc.data()?.datetime.seconds
-						const timestamp = dayjs.unix(timeSeconds).format(timePattern)
-						todoData = { ...todoData, datetime: timestamp }
+					if (doc.data()?.datetime) {
+						const datetime = toInputTimeFormat(doc.data()?.datetime)
+						todoData = { ...todoData, datetime: datetime }
 					}
 
 					return todoData

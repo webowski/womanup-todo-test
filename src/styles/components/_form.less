@@ -13,7 +13,7 @@
 		border-color @duration-md linear,
 		color @duration-md linear;
 	resize: none;
-	color: var(--intense);
+	color: var(--major);
 	font-size: 1rem;
 	line-height: 1.125;
 	font-family: inherit;
@@ -37,7 +37,7 @@
 .FormInput:focus,
 .FormInput:focus-within {
 	background-color: var(--bg);
-	color: var(--intense);
+	color: var(--major);
 	box-shadow:
 		0 0 0 1px rgba(0,0,0,.1),
 		0 1px 1px 0 rgba(0,0,0,.05),
@@ -50,7 +50,7 @@
 	margin-top: 1.5rem;
 	margin-bottom: 1.5rem;
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	gap: 1rem;
 	flex: 1;
 	flex-wrap: wrap;
@@ -61,10 +61,20 @@
 }
 
 .Form__fields {
-	display: flex;
+	display: grid;
+	grid-template-columns: repeat(1, 1fr);
+	align-items: flex-start;
 	flex-wrap: wrap;
 	flex: 1 1 100%;
 	gap: 12px;
+
+	@media (min-width: @md) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+.Form__submit {
+	align-self: flex-start;
 }
 
 .Form.is-pending {

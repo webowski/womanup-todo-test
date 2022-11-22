@@ -8,19 +8,21 @@ import {
 	addDoc,
 	serverTimestamp,
 } from 'firebase/firestore'
+import { toTimestamp } from '@/helpers/time'
 
 export const useTodo = () => {
 	const [isTodoPending, setIsTodoPending] = useState(false)
 
-	const addTodo = useCallback(async (newTodoData) => {
+	const addTodo = useCallback(async (data) => {
 		setIsTodoPending(true)
 		try {
 			await addDoc(collection(db, 'todos'), {
-				timestamp: serverTimestamp(),
-				title: newTodoData.title,
-				datetime: serverTimestamp(),
+				title: data.title,
+				description: data.description,
+				datetime: toTimestamp(data.datetime),
 				isCompleted: false,
-				files: newTodoData.files,
+				files: data.files,
+				timestamp: serverTimestamp(),
 			})
 		} catch (error) {
 			console.error(error)
@@ -35,6 +37,9 @@ export const useTodo = () => {
 			const docRef = doc(db, 'todos', id)
 			await updateDoc(docRef, {
 				title: data.title,
+				description: data.description,
+				datetime: toTimestamp(data.datetime),
+				files: data.files,
 			})
 		} catch (error) {
 			console.error(error)
