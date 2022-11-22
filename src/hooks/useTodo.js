@@ -92,7 +92,6 @@ export const useTodo = () => {
 	}
 
 	const uploadTodoFiles = async (filesToUpload) => {
-		setIsTodoPending(true)
 		let uploadedFiles = []
 
 		if (filesToUpload?.length > 0) {
@@ -101,15 +100,13 @@ export const useTodo = () => {
 			try {
 				const snapshot = await uploadBytes(fileRef, filesToUpload[0])
 				console.log(
-					`Файл ${filesToUpload[0].name} выгружен на Firebase.`,
+					`Файл ${filesToUpload[0].name} выгружен на Firebase`,
 					snapshot
 				)
 				const url = await getDownloadURL(snapshot.ref)
 				uploadedFiles.push({ url, name: filesToUpload[0].name })
 			} catch (error) {
 				console.error(error)
-			} finally {
-				setIsTodoPending(false)
 			}
 		}
 
@@ -122,6 +119,5 @@ export const useTodo = () => {
 		updateTodo,
 		switchTodoCompletion,
 		deleteTodo,
-		uploadTodoFiles,
 	}
 }
