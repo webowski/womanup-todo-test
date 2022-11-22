@@ -15,7 +15,8 @@
 	},
 	"scripts": {
 		"start": "concurrently --kill-others \"less-watch-compiler --config less-watcher.config.json\" \"craco start\"",
-		"build": "craco build",
+		"build": "npm run build:styles && craco build",
+		"build:styles": "lessc src/styles/index.less > src/styles/index.css",
 		"test": "craco test",
 		"eject": "react-scripts eject"
 	},
