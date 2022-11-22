@@ -14,7 +14,7 @@
 		"web-vitals": "^2.1.4"
 	},
 	"scripts": {
-		"start": "craco start",
+		"start": "concurrently --kill-others \"less-watch-compiler --config less-watcher.config.json\" \"craco start\"",
 		"build": "craco build",
 		"test": "craco test",
 		"eject": "react-scripts eject"
