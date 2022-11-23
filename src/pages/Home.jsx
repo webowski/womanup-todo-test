@@ -31,7 +31,7 @@ const Home = () => {
 			}
 			// eslint-disable-next-line
 		},
-		[]
+		[addTodo]
 	)
 
 	return (
