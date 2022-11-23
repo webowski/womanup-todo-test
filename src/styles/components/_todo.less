@@ -16,6 +16,10 @@
 	gap: 1rem;
 	transition: opacity var(--duration-sm);
 	flex-wrap: wrap;
+
+	@media (min-width: @md) {
+		flex-wrap: nowrap;
+	}
 }
 
 .TodoItem__body {
@@ -80,6 +84,10 @@
 	align-self: flex-end;
 	gap: .5rem;
 	flex-wrap: wrap;
+
+	@media (min-width: @md) {
+		flex-wrap: nowrap;
+	}
 }
 
 .TodoItem.is-completed {

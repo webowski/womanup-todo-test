@@ -224,6 +224,11 @@ h6,
   transition: opacity var(--duration-sm);
   flex-wrap: wrap;
 }
+@media (min-width: 768px) {
+  .TodoItem {
+    flex-wrap: nowrap;
+  }
+}
 .TodoItem__body {
   flex: 1 1 100%;
   width: 100%;
@@ -285,6 +290,11 @@ h6,
   align-self: flex-end;
   gap: 0.5rem;
   flex-wrap: wrap;
+}
+@media (min-width: 768px) {
+  .TodoItem__actions {
+    flex-wrap: nowrap;
+  }
 }
 .TodoItem.is-completed {
   background-color: rgba(85, 180, 60, 0.3);
