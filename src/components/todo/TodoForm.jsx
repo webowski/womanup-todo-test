@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 
 const emptyFormState = {
 	title: '',
@@ -7,6 +7,11 @@ const emptyFormState = {
 	files: '',
 }
 
+/**
+ * Компонент "Форма добавления/редактироваия задачи"
+ * @param {{action: ('edit' | 'add'), onSubmit: Function, initialValues: object, isPending: boolean}} props Объект свойств. `action` - действие 'edit' или 'add'. `onSubmit` - функция отправки формы. `initialValues` - начальные значения полей формы. `isPending` - состояние ожидания после отправки формы.
+ * @returns {JSX.Element}
+ */
 const TodoForm = ({
 	action,
 	onSubmit,
@@ -18,6 +23,9 @@ const TodoForm = ({
 	const [filesToUpload, setFilesToUpload] = useState([])
 	const fileInput = useRef()
 
+	/**
+	 * Обработчик отправки формы
+	 */
 	const handleSubmit = useCallback(
 		async (event) => {
 			event.preventDefault()
@@ -31,6 +39,9 @@ const TodoForm = ({
 		[formData, filesToUpload]
 	)
 
+	/**
+	 * Опработчик изменения строковых полей
+	 */
 	const handleInputChange = useCallback((event) => {
 		setFormData((actualState) => ({
 			...actualState,
@@ -38,6 +49,10 @@ const TodoForm = ({
 		}))
 	}, [])
 
+	/**
+	 * Опработчик изменения поля выбора файла
+	 * @param {InputEvent} event
+	 */
 	const handleInputFilesChange = (event) => {
 		setFilesToUpload(event.target.files)
 	}

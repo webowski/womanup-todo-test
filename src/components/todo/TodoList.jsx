@@ -2,6 +2,10 @@ import { useTodos } from '@/hooks/useTodos'
 import TodoItem from '@/components/todo/TodoItem'
 import Preloader from '@/components/ui/Preloader'
 
+/**
+ * Компонент "Список задач"
+ * @returns {JSX.Element} Массив компонентов &lt;TodoItem /&gt;
+ */
 const TodoList = () => {
 	const { todos, isLoading, isFailed } = useTodos()
 

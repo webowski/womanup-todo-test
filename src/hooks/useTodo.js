@@ -12,9 +12,18 @@ import {
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { toTimestamp } from '@/helpers/time'
 
+/**
+ * Хук для получения/записи/удаления данных Задачи
+ * @returns Объект функций и состояний
+ */
 export const useTodo = () => {
 	const [isTodoPending, setIsTodoPending] = useState(false)
 
+	/**
+	 * Добавляет задачу в Firebase
+	 * @param {object} data Объект имён и значений полей (кроме файлов) для записи в базу
+	 * @param {object[]} files Массив объектов, полученный из поля `input type="file"`
+	 */
 	const addTodo = async (data, files) => {
 		setIsTodoPending(true)
 		try {
@@ -37,6 +46,12 @@ export const useTodo = () => {
 		}
 	}
 
+	/**
+	 * Обновляет данные задачи в Firebase. Если передан файл, добавляет к имеющимся в задаче
+	 * @param {string} id Id задачи
+	 * @param {object} data Объект имён и значений полей (кроме файлов) для записи в базу
+	 * @param {object[]} files Массив объектов, полученный из поля `input type="file"`
+	 */
 	const updateTodo = async (id, data, files) => {
 		setIsTodoPending(true)
 		try {
@@ -65,12 +80,17 @@ export const useTodo = () => {
 		}
 	}
 
-	const switchTodoCompletion = async (id, value) => {
+	/**
+	 * Меняет состояние завершения задачи (завершено/не завершено)
+	 * @param {string} id Id задачи
+	 * @param {boolean} isCompleted Значение true/false
+	 */
+	const switchTodoCompletion = async (id, isCompleted) => {
 		setIsTodoPending(true)
 		const docRef = doc(db, 'todos', id)
 		try {
 			await updateDoc(docRef, {
-				isCompleted: value,
+				isCompleted: isCompleted,
 			})
 		} catch (error) {
 			console.error(error)
@@ -79,6 +99,10 @@ export const useTodo = () => {
 		}
 	}
 
+	/**
+	 * Удаляет задачу
+	 * @param {string} id Id задачи
+	 */
 	const deleteTodo = async (id) => {
 		setIsTodoPending(true)
 		const docRef = doc(db, 'todos', id)
@@ -91,6 +115,11 @@ export const useTodo = () => {
 		}
 	}
 
+	/**
+	 * Выгружает файл в Firebase
+	 * @param {object[]} filesToUpload Объект файла, полученный из формы
+	 * @returns {Promise<array<{url: string, name: string}>>} Объект файла с именем и адресом
+	 */
 	const uploadTodoFiles = async (filesToUpload) => {
 		let uploadedFiles = []
 

@@ -3,6 +3,10 @@ import { onSnapshot, collection, query, orderBy } from 'firebase/firestore'
 import { db } from '@/backend/firebase'
 import { toInputTimeFormat } from '@/helpers/time'
 
+/**
+ * Хук useTodos плучает данные списка задач из Firebase
+ * @returns Массив с данными задач и состояния ожидания и ошибки
+ */
 export const useTodos = () => {
 	const [todos, setTodos] = useState([])
 	const [isLoading, setIsLoading] = useState(true)

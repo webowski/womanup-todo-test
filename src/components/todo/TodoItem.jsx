@@ -4,6 +4,11 @@ import { useTodo } from '@/hooks/useTodo'
 import { toDisplayTimeFormat } from '@/helpers/time'
 import dayjs from 'dayjs'
 
+/**
+ * Компонент "Задача"
+ * @param {{ object }} props Объект свойств. `data` - объект данных задачи.
+ * @returns {JSX.Element}
+ */
 const TodoItem = ({ data }) => {
 	const [isOnEdit, setIsOnEdit] = useState(false)
 	const [isExpired, setIsExpired] = useState(false)
@@ -11,11 +16,21 @@ const TodoItem = ({ data }) => {
 	const { isTodoPending, updateTodo, switchTodoCompletion, deleteTodo } =
 		useTodo()
 
+	/**
+	 * Обработчик. Переключает состояние радактирования
+	 */
 	const handleEditTodo = useCallback(() => {
 		setIsOnEdit(true)
 	}, [])
 
+	/**
+	 * Обработчик. Вызывает отправку данных задачи
+	 */
 	const handleUpdateTodo = useCallback(
+		/**
+		 * @param {object} formData
+		 * @param {object[]} files
+		 */
 		async (formData, files) => {
 			try {
 				await updateTodo(data._id, formData, files)

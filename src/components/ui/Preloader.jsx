@@ -1,5 +1,9 @@
 import React from 'react'
 
+/**
+ * Компонент "Предзагрузчик". Выводит анимацию ожидания загрузки
+ * @returns {JSX.Element}
+ */
 const Preloader = () => {
 	return (
 		<svg className='Preloader' viewBox='25 25 50 50'>
