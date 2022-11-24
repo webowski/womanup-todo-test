@@ -343,6 +343,9 @@ h6,
 .Button.-primary {
   background-color: var(--brand);
 }
+.Button.-primary:hover {
+  background-color: #edc900;
+}
 .Button.-sm {
   font-size: 0.875rem;
   padding: 6px 10px;
@@ -438,6 +441,17 @@ h6,
 @media (min-width: 768px) {
   .Form__fields {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+.Form__actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-start;
+}
+@media (min-width: 768px) {
+  .Form__actions {
+    flex-direction: column;
+    align-items: stretch;
   }
 }
 .Form.is-pending {

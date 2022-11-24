@@ -18,10 +18,17 @@ const TodoItem = ({ data }) => {
 
 	/**
 	 * Обработчик. Переключает состояние радактирования
+	 * @param editState Состояние
 	 */
-	const handleEditTodo = useCallback(() => {
-		setIsOnEdit(true)
-	}, [])
+	const handleEditTodo = useCallback(
+		/**
+		 * @param {boolean} editState
+		 */
+		(editState) => {
+			setIsOnEdit(editState)
+		},
+		[]
+	)
 
 	/**
 	 * Обработчик. Вызывает отправку данных задачи
@@ -56,6 +63,20 @@ const TodoItem = ({ data }) => {
 		}
 	}, [data.datetime])
 
+	/**
+	 * Обработчик. Удаляет задачу после подтверждения через диалог
+	 */
+	const handleDeleteTodo = useCallback(
+		() => {
+			const confirmed = window.confirm(
+				`Удалить задачу "${data.title}" безвозвратно?`
+			)
+			if (confirmed) deleteTodo(data._id)
+		},
+		// eslint-disable-next-line
+		[]
+	)
+
 	return (
 		<article
 			className={`TodoItem${data.isCompleted ? ' is-completed' : ''}${
@@ -66,6 +87,7 @@ const TodoItem = ({ data }) => {
 				<TodoForm
 					action='edit'
 					onSubmit={handleUpdateTodo}
+					onCancel={() => handleEditTodo(false)}
 					initialValues={data}
 				/>
 			) : (
@@ -95,7 +117,7 @@ const TodoItem = ({ data }) => {
 					</div>
 
 					<div className='TodoItem__actions'>
-						<button className='Button -sm' onClick={handleEditTodo}>
+						<button className='Button -sm' onClick={() => handleEditTodo(true)}>
 							Редактировать
 						</button>
 
@@ -115,7 +137,7 @@ const TodoItem = ({ data }) => {
 							</button>
 						)}
 
-						<button className='Button -sm' onClick={() => deleteTodo(data._id)}>
+						<button className='Button -sm' onClick={handleDeleteTodo}>
 							Удалить
 						</button>
 					</div>

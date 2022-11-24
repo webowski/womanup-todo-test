@@ -9,7 +9,7 @@ const emptyFormState = {
 
 /**
  * Компонент "Форма добавления/редактироваия задачи"
- * @param {{action: ('edit' | 'add'), onSubmit: Function, initialValues: object, isPending: boolean}} props Объект свойств. `action` - действие 'edit' или 'add'. `onSubmit` - функция отправки формы. `initialValues` - начальные значения полей формы. `isPending` - состояние ожидания после отправки формы.
+ * @param {{action: ('edit' | 'add'), onSubmit: Function, onCancel: Function, initialValues: object, isPending: boolean}} props Объект свойств. `action` - действие 'edit' или 'add'. `onSubmit` - функция отправки формы. `initialValues` - начальные значения полей формы. `isPending` - состояние ожидания после отправки формы.
  * @returns {JSX.Element}
  */
 const TodoForm = ({
@@ -17,6 +17,7 @@ const TodoForm = ({
 	onSubmit,
 	initialValues = {},
 	isPending = false,
+	onCancel,
 }) => {
 	const initialFormState = { ...emptyFormState, ...initialValues }
 	const [formData, setFormData] = useState(initialFormState)
@@ -99,13 +100,20 @@ const TodoForm = ({
 				/>
 			</div>
 
-			{action === 'add' && (
-				<button className='Button -primary'>Добавить</button>
-			)}
+			<div className='Form__actions'>
+				{action === 'add' && (
+					<button className='Button -primary'>Добавить</button>
+				)}
 
-			{action === 'edit' && (
-				<button className='Button -sm -primary'>Сохранить</button>
-			)}
+				{action === 'edit' && (
+					<>
+						<button className='Button -sm -primary'>Сохранить</button>
+						<button className='Button -sm' type='button' onClick={onCancel}>
+							Отмена
+						</button>
+					</>
+				)}
+			</div>
 		</form>
 	)
 }
